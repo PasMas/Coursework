@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.awt.Rectangle;
+
 /**
  * Created by User on 13.03.2016.
  */
@@ -13,15 +15,36 @@ public class MenuClass implements Screen {
 
     final MainClass game;
     OrthographicCamera camera;
-    Texture newGame;
-    Texture Continue;
-    Texture Options;
-    Texture Exit;
+    Rectangle newGame;
+    Rectangle continueGame;
+    Rectangle options;
+    Rectangle exit;
 
     public MenuClass(MainClass mClass) {
         this.game = mClass;
+//        newGame = new Texture("NewGame.png");
+//        continueGame = new Texture("Continue.png");
+//        options = new Texture("Options.png");
+//        exit = new Texture("Exit.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+
+        newGame = new Rectangle();
+        newGame.x = 800/2 - 150;
+        newGame.y = 400;
+
+        continueGame = new Rectangle();
+        continueGame.x = 800/2 - 150;
+        continueGame.y = 300;
+
+        options = new Rectangle();
+        options.x = 800/2 - 150;
+        options.y = 200;
+
+        exit = new Rectangle();
+        exit.x = 800/2 - 150;
+        exit. y = 100;
+
     }
 
     @Override
@@ -31,15 +54,17 @@ public class MenuClass implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.font.draw(game.batch, "Поймай все капли!", 100, 150);
-        game.font.draw(game.batch, "kjgkhdg", 100, 100);
+        game.batch.draw(new Texture("NewGame.png"), newGame.x, newGame.y);
+        game.batch.draw(new Texture("Continue.png"), continueGame.x, continueGame.y);
+        game.batch.draw(new Texture("Options.png"), options.x, options.y);
+        game.batch.draw(new Texture("Exit.png"), exit.x, exit.y);
         game.batch.end();
 
         if(Gdx.input.isTouched()){
