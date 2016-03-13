@@ -31,19 +31,19 @@ public class MenuClass implements Screen {
 
         newGame = new Rectangle();
         newGame.x = 800/2 - 150;
-        newGame.y = 400;
+        newGame.y = 350;
 
         continueGame = new Rectangle();
         continueGame.x = 800/2 - 150;
-        continueGame.y = 300;
+        continueGame.y = 250;
 
         options = new Rectangle();
         options.x = 800/2 - 150;
-        options.y = 200;
+        options.y = 150;
 
         exit = new Rectangle();
         exit.x = 800/2 - 150;
-        exit. y = 100;
+        exit. y = 50;
 
     }
 
