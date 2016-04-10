@@ -14,17 +14,24 @@ public class OptionsScreen implements Screen {
     OrthographicCamera camera;
     final MainClass game;
     Texture soundImage, backGround, options ,back ;
-    Rectangle rectSoundImage;
+    Rectangle rectSoundImage, rectBack;
 
 
     public OptionsScreen(MainClass _game) {
+        game = _game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        game = _game;
         rectSoundImage = new Rectangle(500, 280, 100, 100);
-        soundImage = new Texture("SoundIcon.png");
+        rectBack = new Rectangle(10,10,50,50);
+
+        if(game.sound)
+            soundImage = new Texture("SoundIcon.png");
+        else
+            soundImage = new Texture("SoundIconOff.png");
+
         backGround = new Texture("background.png");
         options = new Texture("Options.png");
+        back = new Texture("back.png");
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -33,11 +40,6 @@ public class OptionsScreen implements Screen {
                 return true; // return true to indicate the event was handled
             }
 
-            @Override
-            public boolean touchUp(int x, int y, int pointer, int button) {
-                // your touch up code here
-                return true; // return true to indicate the event was handled
-            }
         });
     }
 
@@ -57,6 +59,7 @@ public class OptionsScreen implements Screen {
         game.batch.draw(backGround, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.batch.draw(soundImage, 500, 280, 100, 100);
         game.batch.draw(options, 800 / 2 - 176, 390);
+        game.batch.draw(back,10,10,50,50);
 
         game.batch.end();
     }
@@ -74,6 +77,11 @@ public class OptionsScreen implements Screen {
                 soundImage = new Texture("soundIcon.png");
                 game.sound = true;
             }
+        }
+
+        if(rectBack.contains(tmp.x,tmp.y)){
+            game.setScreen(new MenuClass(game));
+            dispose();
         }
 
     }
@@ -100,6 +108,12 @@ public class OptionsScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        camera = null;
+        soundImage = null;
+        back = null;
+        backGround = null;
+        options = null;
+        rectSoundImage = null;
+        rectBack = null;
     }
 }

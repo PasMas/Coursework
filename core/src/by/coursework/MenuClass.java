@@ -64,6 +64,7 @@ public class MenuClass implements Screen {
 
         Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
