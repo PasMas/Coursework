@@ -13,7 +13,7 @@ public class NewGameButton extends Button{
     }
 
     @Override
-    public void buttonPressed() {
+    public void buttonPressed(MainClass game) {
         System.out.println("New Game");
     }
 }

@@ -19,9 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-/**
- * Created by User on 13.03.2016.
- */
+
 public class MenuClass implements Screen {
     final MainClass game;
     OrthographicCamera camera;
@@ -29,6 +27,7 @@ public class MenuClass implements Screen {
     ContinueButton continueGame;
     OptionsButton options;
     ExitButton exit;
+
     public MenuClass(MainClass mClass) {
         this.game = mClass;
         camera = new OrthographicCamera();
@@ -37,6 +36,7 @@ public class MenuClass implements Screen {
         options = new OptionsButton(800/2 - 176, 150, 353, 84, new Texture("Options.png"));
         exit = new ExitButton(800/2 - 99, 50, 199, 80, new Texture("Exit.png"));
         camera.setToOrtho(false, 800, 480);
+
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int x, int y, int pointer, int button) {
@@ -55,23 +55,22 @@ public class MenuClass implements Screen {
     @Override
     public void show() {
 
-
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         camera.update();
-
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+
         game.batch.draw(new Texture("background.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         newGame.draw(game.batch, 1);
         continueGame.draw(game.batch, 2);
         options.draw(game.batch, 3);
         exit.draw(game.batch, 4);
+
         game.batch.end();
     }
 
@@ -97,24 +96,31 @@ public class MenuClass implements Screen {
 
     @Override
     public void dispose() {
-
+        newGame = null;
+        continueGame = null;
+        camera = null;
+        options = null;
+        exit = null;
     }
 
     public void touchScreen(){
         Vector3 tmp = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         camera.unproject(tmp);
         if (newGame.bounds.contains(tmp.x, tmp.y)){
-            newGame.buttonPressed();
+            newGame.buttonPressed(this.game);
+            dispose();
         }
         if (continueGame.bounds.contains(tmp.x, tmp.y)){
-            continueGame.buttonPressed();
+            continueGame.buttonPressed(this.game);
+            dispose();
         }
         if (options.bounds.contains(tmp.x, tmp.y)){
-            options.buttonPressed();
+            options.buttonPressed(this.game);
+            dispose();
         }
         if (exit.bounds.contains(tmp.x, tmp.y)){
-            exit.buttonPressed();
+            exit.buttonPressed(this.game);
+            dispose();
         }
     }
-
 }
