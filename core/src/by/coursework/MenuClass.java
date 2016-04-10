@@ -27,6 +27,7 @@ public class MenuClass implements Screen {
     ContinueButton continueGame;
     OptionsButton options;
     ExitButton exit;
+    Texture backGround;
 
     public MenuClass(MainClass mClass) {
         this.game = mClass;
@@ -36,6 +37,7 @@ public class MenuClass implements Screen {
         options = new OptionsButton(800/2 - 176, 150, 353, 84, new Texture("Options.png"));
         exit = new ExitButton(800/2 - 99, 50, 199, 80, new Texture("Exit.png"));
         camera.setToOrtho(false, 800, 480);
+        backGround = new Texture("background.png");
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -59,13 +61,14 @@ public class MenuClass implements Screen {
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor(255, 255, 255, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
 
-        game.batch.draw(new Texture("background.png"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(backGround, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         newGame.draw(game.batch, 1);
         continueGame.draw(game.batch, 2);
         options.draw(game.batch, 3);
@@ -106,21 +109,24 @@ public class MenuClass implements Screen {
     public void touchScreen(){
         Vector3 tmp = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         camera.unproject(tmp);
+        boolean clicked = false;
         if (newGame.bounds.contains(tmp.x, tmp.y)){
             newGame.buttonPressed(this.game);
-            dispose();
+            clicked = true;
         }
         if (continueGame.bounds.contains(tmp.x, tmp.y)){
             continueGame.buttonPressed(this.game);
-            dispose();
+            clicked = true;
         }
         if (options.bounds.contains(tmp.x, tmp.y)){
             options.buttonPressed(this.game);
-            dispose();
+            clicked = true;
         }
         if (exit.bounds.contains(tmp.x, tmp.y)){
             exit.buttonPressed(this.game);
-            dispose();
+            clicked = true;
         }
+        if(clicked)
+            dispose();
     }
 }
